@@ -1,8 +1,8 @@
 # Multi-Source Search Aggregator
 
-A full-stack search application that aggregates results from multiple public APIs (Wikipedia, Hacker News, Open Library, and GitHub), normalizes them with a custom scoring algorithm, and allows users to select and export results in JSON or CSV format.
+A full-stack search application that aggregates results from multiple public APIs (Wikipedia, Hacker News, Open Library, and GitHub), normalizes them with a custom scoring algorithm, and allows users to select and export results in multiple formats, including JSON & CSV.
 
-## 🚀 Tech Stack
+## Tech Stack
 
 **Frontend:**
 - Vue 3 (Composition API with TypeScript)
@@ -91,7 +91,7 @@ Each search result receives a score from **0-100** based on three factors:
 
 ### Prerequisites
 - Node.js 20.19+ or 22.12+
-- Bun (recommended) or npm
+- Bun v1.0.0+
 
 ### Installation
 
@@ -137,14 +137,14 @@ bun run test:watch    # Watch mode
 bun run test:ui       # Interactive UI
 ```
 
-## 📦 Caching Strategy
+## Caching Strategy
 
 - **Duration**: 5 minutes
 - **Storage**: In-memory Map (suitable for CloudFlare Workers)
 - **Cleanup**: Auto-cleanup when cache exceeds 100 entries
 - **Key**: Normalized lowercase query string
 
-## 🌐 API Endpoints
+## API Endpoints
 
 ### `GET /api/search?q={query}`
 
