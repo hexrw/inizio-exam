@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useI18n } from "vue-i18n";
-import type { SearchResult } from "@/types/search";
+import { computed } from "vue"
+import { useI18n } from "vue-i18n"
+import type { SearchResult } from "@/types/search"
 
-const { t } = useI18n();
+const { t } = useI18n()
 
 const props = defineProps<{
-    result: SearchResult;
-    selected: boolean;
-}>();
+    result: SearchResult
+    selected: boolean
+}>()
 
 const emit = defineEmits<{
-    toggle: [id: string];
-}>();
+    toggle: [id: string]
+}>()
 
 const sourceLabel = computed(() => {
-    return t(`sources.${props.result.source}`);
-});
+    return t(`sources.${props.result.source}`)
+})
 
 const sourceColor = computed(() => {
     const colors = {
@@ -24,13 +24,13 @@ const sourceColor = computed(() => {
         hackernews: "bg-orange-100 text-orange-800",
         openlibrary: "bg-green-100 text-green-800",
         github: "bg-purple-100 text-purple-800",
-    };
-    return colors[props.result.source];
-});
+    }
+    return colors[props.result.source]
+})
 
 const handleToggle = () => {
-    emit("toggle", props.result.id);
-};
+    emit("toggle", props.result.id)
+}
 </script>
 
 <template>

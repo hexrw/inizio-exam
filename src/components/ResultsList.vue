@@ -1,43 +1,43 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useI18n } from "vue-i18n";
-import type { SearchResult } from "@/types/search";
-import ResultItem from "./ResultItem.vue";
+import { computed } from "vue"
+import { useI18n } from "vue-i18n"
+import type { SearchResult } from "@/types/search"
+import ResultItem from "./ResultItem.vue"
 
-const { t } = useI18n();
+const { t } = useI18n()
 
 const props = defineProps<{
-    results: SearchResult[];
-    selectedIds: Set<string>;
-}>();
+    results: SearchResult[]
+    selectedIds: Set<string>
+}>()
 
 const emit = defineEmits<{
-    toggle: [id: string];
-    toggleAll: [];
-    export: [format: "json" | "csv" | "xlsx" | "xml"];
-}>();
+    toggle: [id: string]
+    toggleAll: []
+    export: [format: "json" | "csv" | "xlsx" | "xml"]
+}>()
 
 const allSelected = computed(() => {
     return (
         props.results.length > 0 &&
         props.selectedIds.size === props.results.length
-    );
-});
+    )
+})
 
 const someSelected = computed(() => {
     return (
         props.selectedIds.size > 0 &&
         props.selectedIds.size < props.results.length
-    );
-});
+    )
+})
 
 const handleToggleAll = () => {
-    emit("toggleAll");
-};
+    emit("toggleAll")
+}
 
 const handleExport = (format: "json" | "csv" | "xlsx" | "xml") => {
-    emit("export", format);
-};
+    emit("export", format)
+}
 </script>
 
 <template>

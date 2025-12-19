@@ -1,88 +1,88 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { useI18n } from "vue-i18n";
-import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
-import ResultsList from "@/components/ResultsList.vue";
-import SearchInput from "@/components/SearchInput.vue";
-import type { SearchResult } from "@/types/search";
+import { ref, watch } from "vue"
+import { useI18n } from "vue-i18n"
+import LanguageSwitcher from "@/components/LanguageSwitcher.vue"
+import ResultsList from "@/components/ResultsList.vue"
+import SearchInput from "@/components/SearchInput.vue"
+import type { SearchResult } from "@/types/search"
 import {
     exportToCSV,
     exportToJSON,
     exportToXLSX,
     exportToXML,
-} from "@/utils/export";
+} from "@/utils/export"
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n()
 
-const results = ref<SearchResult[]>([]);
-const selectedIds = ref<Set<string>>(new Set());
-const isLoading = ref(false);
-const error = ref<string | null>(null);
+const results = ref<SearchResult[]>([])
+const selectedIds = ref<Set<string>>(new Set())
+const isLoading = ref(false)
+const error = ref<string | null>(null)
 
 // Clear results when language changes
 watch(locale, () => {
-    results.value = [];
-    selectedIds.value.clear();
-    error.value = null;
-});
+    results.value = []
+    selectedIds.value.clear()
+    error.value = null
+})
 
 const handleSearch = async (query: string) => {
-    isLoading.value = true;
-    error.value = null;
-    selectedIds.value.clear();
+    isLoading.value = true
+    error.value = null
+    selectedIds.value.clear()
 
     try {
         const response = await fetch(
             `/api/search?q=${encodeURIComponent(query)}`,
-        );
+        )
 
         if (!response.ok) {
-            throw new Error(`${t("search.error")} ${response.statusText}`);
+            throw new Error(`${t("search.error")} ${response.statusText}`)
         }
 
-        const data = await response.json();
-        results.value = data.results || [];
+        const data = await response.json()
+        results.value = data.results || []
     } catch (err) {
-        error.value = err instanceof Error ? err.message : t("search.error");
-        results.value = [];
+        error.value = err instanceof Error ? err.message : t("search.error")
+        results.value = []
     } finally {
-        isLoading.value = false;
+        isLoading.value = false
     }
-};
+}
 
 const handleToggle = (id: string) => {
     if (selectedIds.value.has(id)) {
-        selectedIds.value.delete(id);
+        selectedIds.value.delete(id)
     } else {
-        selectedIds.value.add(id);
+        selectedIds.value.add(id)
     }
     // Force reactivity
-    selectedIds.value = new Set(selectedIds.value);
-};
+    selectedIds.value = new Set(selectedIds.value)
+}
 
 const handleToggleAll = () => {
     if (selectedIds.value.size === results.value.length) {
-        selectedIds.value.clear();
+        selectedIds.value.clear()
     } else {
-        selectedIds.value = new Set(results.value.map((r) => r.id));
+        selectedIds.value = new Set(results.value.map((r) => r.id))
     }
-};
+}
 
 const handleExport = (format: "json" | "csv" | "xlsx" | "xml") => {
     const selectedResults = results.value.filter((r) =>
         selectedIds.value.has(r.id),
-    );
+    )
 
     if (format === "json") {
-        exportToJSON(selectedResults);
+        exportToJSON(selectedResults)
     } else if (format === "csv") {
-        exportToCSV(selectedResults);
+        exportToCSV(selectedResults)
     } else if (format === "xlsx") {
-        exportToXLSX(selectedResults);
+        exportToXLSX(selectedResults)
     } else {
-        exportToXML(selectedResults);
+        exportToXML(selectedResults)
     }
-};
+}
 </script>
 
 <template>

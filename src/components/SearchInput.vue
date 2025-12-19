@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
-import { useI18n } from "vue-i18n";
+import { computed, onMounted, ref, watch } from "vue"
+import { useI18n } from "vue-i18n"
 
 const emit = defineEmits<{
-    search: [query: string];
-}>();
+    search: [query: string]
+}>()
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n()
 
-const query = ref("");
-const isLoading = ref(false);
-const suggestion = ref("");
-const inputRef = ref<HTMLInputElement>();
-let dictionary: string[] = [];
+const query = ref("")
+const isLoading = ref(false)
+const suggestion = ref("")
+const inputRef = ref<HTMLInputElement>()
+let dictionary: string[] = []
 
 const techTerms = [
     "javascript",
@@ -64,7 +64,7 @@ const techTerms = [
     "visualization",
     "testing",
     "deployment",
-];
+]
 
 // Czech common words
 const czechWords = [
@@ -116,7 +116,7 @@ const czechWords = [
     "zdraví",
     "technologie",
     "inovace",
-];
+]
 
 // Common English words (smaller subset for better performance)
 const commonEnglishWords = [
@@ -286,43 +286,43 @@ const commonEnglishWords = [
     "observer",
     "strategy",
     "adapter",
-];
+]
 
 const loadDictionary = () => {
     if (locale.value === "cs") {
         // Czech mode: prioritize Czech words + tech terms + common English
-        dictionary = [...czechWords, ...techTerms, ...commonEnglishWords];
+        dictionary = [...czechWords, ...techTerms, ...commonEnglishWords]
     } else {
         // English mode: tech terms + common English words
-        dictionary = [...techTerms, ...commonEnglishWords];
+        dictionary = [...techTerms, ...commonEnglishWords]
     }
     console.log(
         `Dictionary loaded for ${locale.value}:`,
         dictionary.length,
         "words",
-    );
-};
+    )
+}
 
 onMounted(() => {
-    loadDictionary();
-});
+    loadDictionary()
+})
 
 // Reload dictionary when locale changes
 watch(locale, () => {
-    loadDictionary();
-    suggestion.value = ""; // Clear suggestions when switching language
-    query.value = ""; // Clear input when switching language
-});
+    loadDictionary()
+    suggestion.value = "" // Clear suggestions when switching language
+    query.value = "" // Clear input when switching language
+})
 
 const handleInput = () => {
     if (!dictionary.length || !query.value) {
-        suggestion.value = "";
-        return;
+        suggestion.value = ""
+        return
     }
 
     // Get the last word being typed
-    const queryWords = query.value.split(" ");
-    const lastWord = queryWords[queryWords.length - 1]?.toLowerCase() || "";
+    const queryWords = query.value.split(" ")
+    const lastWord = queryWords[queryWords.length - 1]?.toLowerCase() || ""
 
     if (lastWord && lastWord.length > 0) {
         // Find first word that starts with the typed text
@@ -330,66 +330,66 @@ const handleInput = () => {
             (word) =>
                 word.toLowerCase().startsWith(lastWord) &&
                 word.length > lastWord.length,
-        );
+        )
 
         if (match) {
             // Calculate the full suggestion including already typed text
-            const beforeLastWord = queryWords.slice(0, -1).join(" ");
+            const beforeLastWord = queryWords.slice(0, -1).join(" ")
             const suggestionText = beforeLastWord
                 ? `${beforeLastWord} ${match}`
-                : match;
-            suggestion.value = suggestionText;
-            console.log("Suggestion:", lastWord, "→", match);
-            return;
+                : match
+            suggestion.value = suggestionText
+            console.log("Suggestion:", lastWord, "→", match)
+            return
         }
     }
 
-    suggestion.value = "";
-};
+    suggestion.value = ""
+}
 
 const handleKeydown = (event: KeyboardEvent) => {
     if (event.key === "Enter") {
-        handleSearch();
+        handleSearch()
     } else if (event.key === "Tab" && suggestion.value) {
-        event.preventDefault();
-        query.value = suggestion.value + " ";
-        suggestion.value = "";
+        event.preventDefault()
+        query.value = suggestion.value + " "
+        suggestion.value = ""
     } else if (
         event.key === "ArrowRight" &&
         suggestion.value &&
         inputRef.value
     ) {
         // Accept suggestion with right arrow if cursor is at end
-        const cursorPos = inputRef.value.selectionStart || 0;
+        const cursorPos = inputRef.value.selectionStart || 0
         if (cursorPos === query.value.length) {
-            event.preventDefault();
-            query.value = suggestion.value + " ";
-            suggestion.value = "";
+            event.preventDefault()
+            query.value = suggestion.value + " "
+            suggestion.value = ""
         }
     }
-};
+}
 
 const handleSearch = () => {
-    if (!query.value.trim()) return;
+    if (!query.value.trim()) return
 
-    isLoading.value = true;
-    suggestion.value = "";
-    emit("search", query.value.trim());
+    isLoading.value = true
+    suggestion.value = ""
+    emit("search", query.value.trim())
     setTimeout(() => {
-        isLoading.value = false;
-    }, 500);
-};
+        isLoading.value = false
+    }, 500)
+}
 
 // Compute the suggestion display (only the part that's not yet typed)
 const suggestionDisplay = computed(() => {
-    if (!suggestion.value || !query.value) return "";
+    if (!suggestion.value || !query.value) return ""
     if (suggestion.value.startsWith(query.value)) {
-        return suggestion.value.slice(query.value.length);
+        return suggestion.value.slice(query.value.length)
     }
-    return "";
-});
+    return ""
+})
 
-defineExpose({ isLoading });
+defineExpose({ isLoading })
 </script>
 
 <template>
