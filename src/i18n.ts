@@ -1,26 +1,32 @@
-import { createI18n } from "vue-i18n"
-import cs from "./locales/cs"
+import { ref, computed } from "vue"
 import en from "./locales/en"
+import cs from "./locales/cs"
 
-const supportedLocales = ["en", "cs"]
+type Locale = "en" | "cs"
 
-const retrieveLocale = (): string => {
-    const savedLocale = localStorage.getItem("locale")
-    if (savedLocale && supportedLocales.includes(savedLocale)) {
-        return savedLocale
-    }
-    return "cs" // Default to Czech
+const messages = { en, cs }
+
+export const locale = ref<Locale>("cs")
+
+function getNestedValue(obj: any, path: string): string {
+    return path.split(".").reduce((o, key) => o?.[key], obj) || path
 }
 
-const i18n = createI18n({
-    legacy: false,
-    locale: retrieveLocale(), // Default to Czech
-    fallbackLocale: "en",
-    messages: {
-        en,
-        cs,
-    },
-})
+export function t(key: string, params?: Record<string, string | number>): string {
+    let translation = getNestedValue(messages[locale.value], key)
+    
+    if (params) {
+        Object.entries(params).forEach(([key, value]) => {
+            translation = translation.replace(`{${key}}`, String(value))
+        })
+    }
+    
+    return translation
+}
 
-export { i18n }
-export default i18n
+export function useI18n() {
+    return {
+        locale,
+        t: (key: string, params?: Record<string, string | number>) => computed(() => t(key, params)),
+    }
+}

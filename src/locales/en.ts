@@ -27,8 +27,7 @@ export default {
     },
     header: {
         title: "Search Aggregator",
-        subtitle:
-            "Search across Wikipedia, Hacker News, Open Library and GitHub",
+        subtitle: "Search across Wikipedia, Hacker News, Open Library and GitHub",
     },
     csv: {
         source: "Source",
@@ -37,4 +36,4 @@ export default {
         score: "Score",
         url: "URL",
     },
-}
+} as const

@@ -35,6 +35,9 @@ coverage
 # Vitest
 __screenshots__/
 
+# Playwright
+.playwright-mcp/
+
 # wrangler files
 .wrangler
 .dev.vars*

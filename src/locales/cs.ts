@@ -27,8 +27,7 @@ export default {
     },
     header: {
         title: "Vyhledávač",
-        subtitle:
-            "Vyhledávejte napříč Wikipedia, Hacker News, Open Library a GitHub",
+        subtitle: "Vyhledávejte napříč Wikipedia, Hacker News, Open Library a GitHub",
     },
     csv: {
         source: "Zdroj",
@@ -37,4 +36,4 @@ export default {
         score: "Skóre",
         url: "URL",
     },
-}
+} as const

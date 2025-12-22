@@ -13,18 +13,12 @@ export default defineConfig(({ mode }) => ({
         vue(),
         vueDevTools(),
         UnoCSS(),
-        // Only include cloudflare plugin when not running tests
-        mode !== "test" && cloudflare(),
+        cloudflare(),
     ].filter(Boolean),
     resolve: {
         alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
     },
     server: {
         port: 4005,
-    },
-    test: {
-        globals: true,
-        environment: "node",
-        alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
     },
 }))

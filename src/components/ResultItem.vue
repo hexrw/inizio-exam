@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue"
-import { useI18n } from "vue-i18n"
+import { useI18n } from "../i18n"
 import type { SearchResult } from "@/types/search"
 
 const { t } = useI18n()
@@ -15,7 +15,7 @@ const emit = defineEmits<{
 }>()
 
 const sourceLabel = computed(() => {
-    return t(`sources.${props.result.source}`)
+    return t(`sources.${props.result.source}`).value
 })
 
 const sourceColor = computed(() => {
@@ -52,7 +52,7 @@ const handleToggle = () => {
             {{ sourceLabel }}
           </span>
           <span class="px-2 py-1 text-xs font-bold text-blue-700 bg-blue-100 rounded">
-            {{ t('results.score') }}: {{ result.score.toFixed(1) }}
+            {{ t('results.score').value }}: {{ result.score.toFixed(1) }}
           </span>
         </div>
         <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
@@ -68,7 +68,7 @@ const handleToggle = () => {
           class="text-sm text-blue-600 hover:text-blue-800 hover:underline inline-flex items-center gap-1"
           @click.stop
         >
-          {{ t('results.openLink') }}
+          {{ t('results.openLink').value }}
           <span class="text-xs">↗</span>
         </a>
       </div>

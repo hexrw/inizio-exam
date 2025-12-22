@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue"
-import { useI18n } from "vue-i18n"
+import { useI18n, locale } from "../i18n"
 
 const emit = defineEmits<{
     search: [query: string]
 }>()
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
 
 const query = ref("")
 const isLoading = ref(false)
@@ -400,7 +400,7 @@ defineExpose({ isLoading })
           ref="inputRef"
           v-model="query"
           type="text"
-          :placeholder="t('search.placeholder')"
+          :placeholder="t('search.placeholder').value"
           class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none transition-colors relative z-10 bg-transparent"
           :disabled="isLoading"
           @input="handleInput"
@@ -429,11 +429,11 @@ defineExpose({ isLoading })
         :disabled="isLoading || !query.trim()"
         class="px-8 py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
       >
-        {{ isLoading ? t('search.searching') : t('search.button') }}
+        {{ isLoading ? t('search.searching').value : t('search.button').value }}
       </button>
     </div>
     <div v-if="suggestionDisplay" class="text-xs text-gray-500 mt-2 text-center">
-      {{ t('search.autocompleteHint') }}
+      {{ t('search.autocompleteHint').value }}
     </div>
   </div>
 </template>

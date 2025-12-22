@@ -7,11 +7,17 @@
     "name": "search",
     "compatibility_date": "2025-12-13",
     "main": "server/index.ts",
+    "workers_dev": true,
     "assets": {
-        "not_found_handling": "single-page-application"
+        "directory": "./public",
+        "not_found_handling": "single-page-application",
     },
     "observability": {
         "enabled": true
+    },
+    "route": {
+        "custom_domain": true,
+        "pattern": "search.project.webspen.com"
     }
     /**
      * Smart Placement

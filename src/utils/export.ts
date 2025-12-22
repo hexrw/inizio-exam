@@ -1,8 +1,6 @@
 import * as XLSX from "xlsx"
-import i18n from "@/i18n"
+import { t } from "@/i18n"
 import type { SearchResult } from "@/types/search"
-
-const { t } = i18n.global
 
 export function exportToJSON(results: SearchResult[]): void {
     const data = {

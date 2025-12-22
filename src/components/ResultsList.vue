@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue"
-import { useI18n } from "vue-i18n"
+import { useI18n } from "../i18n"
 import type { SearchResult } from "@/types/search"
 import ResultItem from "./ResultItem.vue"
 
@@ -54,7 +54,7 @@ const handleExport = (format: "json" | "csv" | "xlsx" | "xml") => {
             class="w-5 h-5 cursor-pointer accent-blue-600"
           />
           <span class="font-medium text-gray-700">
-            {{ t('results.selectAll') }} ({{ selectedIds.size }} / {{ results.length }})
+            {{ t('results.selectAll').value }} ({{ selectedIds.size }} / {{ results.length }})
           </span>
         </label>
       </div>
@@ -65,28 +65,28 @@ const handleExport = (format: "json" | "csv" | "xlsx" | "xml") => {
           :disabled="selectedIds.size === 0"
           class="px-4 py-2 text-sm font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
         >
-          {{ t('results.exportJson') }}
+          {{ t('results.exportJson').value }}
         </button>
         <button
           @click="handleExport('csv')"
           :disabled="selectedIds.size === 0"
           class="px-4 py-2 text-sm font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
         >
-          {{ t('results.exportCsv') }}
+          {{ t('results.exportCsv').value }}
         </button>
         <button
           @click="handleExport('xlsx')"
           :disabled="selectedIds.size === 0"
           class="px-4 py-2 text-sm font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
         >
-          {{ t('results.exportXlsx') }}
+          {{ t('results.exportXlsx').value }}
         </button>
         <button
           @click="handleExport('xml')"
           :disabled="selectedIds.size === 0"
           class="px-4 py-2 text-sm font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
         >
-          {{ t('results.exportXml') }}
+          {{ t('results.exportXml').value }}
         </button>
       </div>
     </div>
@@ -104,8 +104,8 @@ const handleExport = (format: "json" | "csv" | "xlsx" | "xml") => {
 
     <!-- Empty state -->
     <div v-if="results.length === 0" class="text-center py-12 text-gray-500">
-      <p class="text-lg">{{ t('search.noResults') }}</p>
-      <p class="text-sm mt-2">{{ t('search.noResultsHint') }}</p>
+      <p class="text-lg">{{ t('search.noResults').value }}</p>
+      <p class="text-sm mt-2">{{ t('search.noResultsHint').value }}</p>
     </div>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue"
-import { useI18n } from "vue-i18n"
+import { t as tFunc, useI18n, locale } from "../i18n"
 import LanguageSwitcher from "@/components/LanguageSwitcher.vue"
 import ResultsList from "@/components/ResultsList.vue"
 import SearchInput from "@/components/SearchInput.vue"
@@ -12,7 +12,7 @@ import {
     exportToXML,
 } from "@/utils/export"
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
 
 const results = ref<SearchResult[]>([])
 const selectedIds = ref<Set<string>>(new Set())
@@ -37,13 +37,13 @@ const handleSearch = async (query: string) => {
         )
 
         if (!response.ok) {
-            throw new Error(`${t("search.error")} ${response.statusText}`)
+            throw new Error(`${tFunc("search.error")} ${response.statusText}`)
         }
 
         const data = await response.json()
         results.value = data.results || []
     } catch (err) {
-        error.value = err instanceof Error ? err.message : t("search.error")
+        error.value = err instanceof Error ? err.message : tFunc("search.error")
         results.value = []
     } finally {
         isLoading.value = false
@@ -96,10 +96,10 @@ const handleExport = (format: "json" | "csv" | "xlsx" | "xml") => {
       <!-- Header -->
       <div class="text-center mb-12">
         <h1 class="text-4xl font-bold text-gray-900 mb-3">
-          {{ t("header.title") }}
+          {{ t("header.title").value }}
         </h1>
         <p class="text-lg text-gray-600">
-          {{ t("header.subtitle") }}
+          {{ t("header.subtitle").value }}
         </p>
       </div>
 
@@ -111,13 +111,13 @@ const handleExport = (format: "json" | "csv" | "xlsx" | "xml") => {
       <!-- Loading State -->
       <div v-if="isLoading" class="text-center py-12">
         <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-        <p class="mt-4 text-gray-600">{{ t("search.loading") }}</p>
+        <p class="mt-4 text-gray-600">{{ t("search.loading").value }}</p>
       </div>
 
       <!-- Error State -->
       <div v-else-if="error" class="max-w-2xl mx-auto">
         <div class="bg-red-50 border-2 border-red-200 rounded-lg p-4 text-red-800">
-          <p class="font-semibold">{{ t("search.error") }}</p>
+          <p class="font-semibold">{{ t("search.error").value }}</p>
           <p>{{ error }}</p>
         </div>
       </div>

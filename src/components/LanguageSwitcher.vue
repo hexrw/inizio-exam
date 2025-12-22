@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import { useI18n } from "vue-i18n"
-
-const { locale } = useI18n()
+import { locale } from "../i18n"
 
 const toggleLocale = () => {
-    const newLocale = locale.value === "en" ? "cs" : "en"
-    locale.value = newLocale
-    localStorage.setItem("locale", newLocale)
+    locale.value = locale.value === "en" ? "cs" : "en"
 }
 </script>
 
