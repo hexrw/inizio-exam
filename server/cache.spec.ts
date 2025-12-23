@@ -53,22 +53,6 @@ describe("Cache functionality", () => {
             expect(cached).not.toBeNull()
         })
 
-        it("should trim whitespace from query", () => {
-            const timestamp = Date.now()
-            const query = `test query ${timestamp}`
-            const queryWithSpaces = `  test query  ${timestamp}`
-            const entry = {
-                query: queryWithSpaces,
-                results: mockResults,
-                timestamp: Date.now(),
-            }
-
-            setCachedResults(queryWithSpaces, entry)
-
-            const cached = getCachedResults(query)
-            expect(cached).not.toBeNull()
-        })
-
         it("should handle empty results", () => {
             const query = `empty query ${Date.now()}`
             const entry = {

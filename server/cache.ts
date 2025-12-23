@@ -9,9 +9,7 @@ export function getCachedResults(query: string): CacheEntry | null {
     const normalizedQuery = query.toLowerCase().trim()
     const cached = cache.get(normalizedQuery)
 
-    if (!cached) {
-        return null
-    }
+    if (!cached) return null
 
     // Check if cache is still valid
     const now = Date.now()
