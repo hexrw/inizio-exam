@@ -190,4 +190,4 @@ Health check endpoint.
 - GitHub API has rate limits; responses gracefully handle 403 errors
 - All API calls include try-catch blocks
 - Failed API calls don't break the entire search (returns empty array)
-- Frontend displays error messages in Czech
+- Frontend feedback
